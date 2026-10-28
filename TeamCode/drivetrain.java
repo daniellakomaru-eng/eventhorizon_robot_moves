@@ -11,7 +11,7 @@ public class ArcadeDriveTeleOp extends LinearOpMode {
     // Declare drive motors (Teal = Left side, Pink = Right side)
     private DcMotor tealMotor = null;
     private DcMotor pinkMotor = null;
-
+    private DcMotor intakeMotor = null;
     
     @Override
     public void runOpMode() {
@@ -19,6 +19,7 @@ public class ArcadeDriveTeleOp extends LinearOpMode {
         // --- HARDWARE MAPPING ---
         tealMotor = hardwareMap.get(DcMotor.class, "teal"); // INTERCHANGEABLE: Device configuration name for left
         pinkMotor = hardwareMap.get(DcMotor.class, "pink"); // INTERCHANGEABLE: Device configuration name for right
+        intakeMotor = hardwareMap.get(DcMotor.class, "intake");
 
         // --- MOTOR DIRECTIONS ---
         tealMotor.setDirection(DcMotorSimple.Direction.FORWARD);  // INTERCHANGEABLE: Change to REVERSE if left runs backward
@@ -58,6 +59,16 @@ public class ArcadeDriveTeleOp extends LinearOpMode {
             double tealPower = Math.pow(tealInput, 3);   // INTERCHANGEABLE: Use raw input or Math.pow(..., 3)
             double pinkPower = Math.pow(pinkInput, 3);   // INTERCHANGEABLE: Use raw input or Math.pow(..., 3)
 
+            // 4. INTAKE
+            if (gamepad1.left_trigger > 0.1) {
+                intakeMotor.setPower(1.0);
+            }
+            else if (gamepad1.right_trigger > 0.1) {
+                intakeMotor.setPower(-1.0);
+            }
+            else {
+                intakeMotor.setPower(0.0);
+            }
 
             // 5. POWER APPLICATION
             tealMotor.setPower(tealPower);
